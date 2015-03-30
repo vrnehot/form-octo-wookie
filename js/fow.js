@@ -1,13 +1,31 @@
 //FORM-OCTO-WOOKIE!!
+/*REQUIRE:
+any addEventListener polyfill
+*/
 (function(window,und){
 	var doc = window.document;
 	var fpref = 'form-octo-wookie_';
+
+	/* helpers */
 	function ext(){
 		var i,j,arg = arguments;
 		for(i = 1; i < arg.length; i++){
 			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[i][j]; }
 		}
 	}
+	var isCtrl = false, isShift = false;
+	doc.addEventListener('keyup',function(e){
+		var keyCode = ('which' in e) ? e.which : e.keyCode;
+		if(keyCode == 17){ isCtrl = false; }
+		if(keyCode == 16){ isShift = false; }
+	});
+	doc.addEventListener('keydown',function(e){
+		var keyCode = ('which' in e) ? e.which : e.keyCode;
+		if(keyCode == 17){ isCtrl = true; }
+		if(keyCode == 16){ isShift = true; }
+	});
+	/* helpers */
+
 	function inp(){
 		var opt,type,obj;
 		if(typeof arguments[0] == 'object'){ opt = arguments[0]; }
@@ -50,14 +68,14 @@
 				z.elem.appendChild(z.el_hint);
 			}
 			, _addMessage:function(){}
-			, _addInp:function(){/* сам инпут */ throw('call virtual method _addInp'); }
+			, _addInp:function(){/* сам инпут */ throw('call virtual method _addInp');}
 			, val:function(){
 				var z = this;
 				if(arguments.length){ return z._set.apply(this,arguments); }
 				return z._get();
 			}
-			, _get:function(){ /* возврат значения */ throw('call virtual method _addInp'); }
-			, _set:function(value){ /* установка значения */ throw('call virtual method _addInp'); }
+			, _get:function(){ /* возврат значения */ throw('call virtual method _get'); }
+			, _set:function(value){ /* установка значения */ throw('call virtual method _set'); }
 		}
 		, callbacks:{
 			$callbacks:true
@@ -91,6 +109,11 @@
 			, pauseListener:function(ev,fn){}
 			, playListener:function(ev,fn){}
 		}
+		, sequence:{
+			$sequence:true
+			, next:function(){/* следующее значение */ throw('call virtual method next');}
+			, prev:function(){/* предыдущее значение */ throw('call virtual method prev');}
+		}
 	};
 	inp.text = function(opt){ ext(this,opt); this.init(); }
 	ext(inp.text.prototype
@@ -111,5 +134,55 @@
 			, _set:function(val){ var z = this; z.inp.value = val; }
 		}
 	);
+//var keyCode = ('which' in event) ? event.which : event.keyCode;
+	inp.number = function(opt){ ext(this,opt); this.init(); }
+	ext(inp.number.prototype
+		, faces.inp
+		, faces.callbacks
+		, faces.sequence
+		, {
+			_addInp:function(){
+				var z = this;
+				z.inp = doc.createElement('input');
+				z.inp.type = 'text';
+				z.inp.name = z.name;
+				z.inpWrap = doc.createElement('div');
+				z.inpWrap.appendChild(z.inp);
+				z.elem.appendChild(z.inpWrap);
+				// добавить свистелки и свистульки
+			}
+			, _get:function(){ var z = this; return z.inp.value; }
+			, _set:function(val){ var z = this; z.inp.value = val; }
+			, _events:function(){
+				var z = this;
+				z.inp.addEventListener('input',function(e){
+					var keyCode = ('which' in e) ? e.which : e.keyCode;
+					if(
+						( ~[46, 8, 9, 27, 13, 110, 190].indexOf(keyCode) )
+						|| ( keyCode == 65 && isCtrl )
+						|| ( keyCode == 67 && isCtrl )
+						|| ( keyCode == 88 && isCtrl )
+						|| ( keyCode > 34 && keyCode < 40 )
+					){ return; }
+					if((isShift || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105)){ e.preventDefault(); }
+				});
+			}
+			, next:function(){
+				var z = this,val;
+				val = parseFloat(z._get());
+				val++;
+				z._set(val);
+				return val;
+			}
+			, prev:function(){
+				var z = this,val;
+				val = parseFloat(z._get());
+				val--;
+				z._set(val);
+				return val;
+			}
+		}
+	);
+
 	window.fow = inp;
 })(window);
