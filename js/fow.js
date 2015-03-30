@@ -36,12 +36,14 @@
 			}
 			, _events:function(){/*events*/}
 			, _addLabel:function(){
+				var z = this;
 				z.el_label = doc.createElement('div');
 				z.el_label.className = fpref+'label';
 				z.el_label.innerHTML = z.label;
 				z.elem.appendChild(z.el_label);
 			}
 			, _addHint:function(){
+				var z = this;
 				z.el_hint = doc.createElement('div');
 				z.el_hint.className = fpref+'hint';
 				z.el_hint.innerHTML = z.hint;
