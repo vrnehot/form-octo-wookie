@@ -92,9 +92,7 @@
 			, playListener:function(ev,fn){}
 		}
 	};
-	inp.text = function(opt){
-		ext(this,opt);
-	}
+	inp.text = function(opt){ ext(this,opt); this.init(); }
 	ext(inp.text.prototype
 		, faces.inp
 		, faces.callbacks
