@@ -154,8 +154,10 @@ any addEventListener polyfill
 			, _get:function(){ var z = this; return z.inp.value; }
 			, _set:function(val){ var z = this; z.inp.value = val; }
 			, _events:function(){
+				console.info('add events');
 				var z = this;
 				z.inp.addEventListener('input',function(e){
+					console.info('inp event');
 					var keyCode = ('which' in e) ? e.which : e.keyCode;
 					if(
 						( ~[46, 8, 9, 27, 13, 110, 190].indexOf(keyCode) )
