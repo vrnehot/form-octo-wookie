@@ -170,7 +170,7 @@ any addEventListener polyfill
 						setTimeout(function(){
 							z.inp.value = z.inp.value.replace(/[^0-9\.]+/g,'');
 							console.info('Value - ',z.inp.value);
-						},16);
+						},1);
 						return;
 					}
 					if((isShift || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105)){ e.preventDefault(); }
