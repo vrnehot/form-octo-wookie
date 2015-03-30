@@ -1,3 +1,4 @@
+//FORM-OCTO-WOOKIE!!
 (function(window,und){
 	var doc = window.document;
 	function ext(){
@@ -7,9 +8,12 @@
 		}
 	}
 	function inp(){
-		var opt;
+		var opt,type,obj;
 		if(typeof arguments[0] == 'object'){ opt = arguments[0]; }
 		else{ opt = { type:arguments[0] }; }
+		obj = new inp[opt.type](opt);
+		// Добавить в глобальную базу объектов, на форму, еще кудато
+		return obj;
 	}
 	var faces = {
 		inp:{
@@ -26,18 +30,55 @@
 				z.elem = doc.createElement('label');
 				if(z.label){ z._addLabel(); }
 				if(z.hint){ z._addHint(); }
+				z._addInp();
+				if(z.validate){ z._addMessage(); }
 			}
-			, _events:function(){
-				var z = this;
-				if(z.validate)
+			, _events:function(){/*events*/}
+			, _addLabel:function(){
+				z.el_label = doc.createElement('div');
 			}
-			, _addLabel:function(label){}
+			, _addHint:function(){}
+			, _addMessage:function(){}
 			, _addInp:function(){/* сам инпут */}
-			, val:function(){/* получение значения */}
+			, val:function(){
+				var z = this;
+				if(arguments.length){ return z._set.apply(this,arguments); }
+				return z._get();
+			}
+			, _get:function(){ /* возврат значения */ }
+			, _set:function(value){ /* установка значения */ }
 		}
 		, callbacks:{
 			$callbacks:true
-			, invoke:function(){}
+			, invoke:function(ev){
+				var z = this,i;
+				if(!z.callbacks){ z.callbacks = {}; }
+				if(!z.callbacks[ev]){ return; }
+				for( i = 0; i < z.callbacks.length; i++)if(z.callbacks[i]){
+					z.callbacks[i].fn.call(z.callbacks[i].context || z);
+				}
+			}
+			, addListener:function(ev,fn,ct){
+				var z = this;
+				if(!z.callbacks){ z.callbacks = {}; }
+				if(!z.callbacks[ev]){ z.callbacks[ev] = []; }
+				z.callbacks[ev].push({
+					event:ev
+					, func:fn
+					, context:ct
+				});
+			}
+			, removeListener:function(ev,fn){
+				var z = this,i;
+				if(!z.callbacks){ z.callbacks = {}; }
+				if(!z.callbacks[ev]){return;}
+				for(i = 0; i < z.callbacks.length; i++)if(z.callbacks[i]){
+					if(fn){ if(z.callbacks[i].fn === fn){ z.callbacks[i] = null; } }
+					else{ z.callbacks[i] = null; }
+				}
+			}
+			, pauseListener:function(ev,fn){}
+			, playListener:function(ev,fn){}
 		}
 	};
 	inp.text = function(opt){
@@ -45,6 +86,7 @@
 	}
 	ext(inp.text.prototype
 		, faces.inp
+		, faces.callbacks
 		, {
 			_addInp:function(){
 				var z = this;
@@ -56,6 +98,9 @@
 				z.elem.appendChild(z.inpWrap);
 				// добавить свистелки и свистульки
 			}
+			, _get:function(){ var z = this; return z.inp.value; }
+			, _set:function(val){ var z = this; z.inp.value = val; }
 		}
 	);
+	window.fow = inp;
 })(window);
