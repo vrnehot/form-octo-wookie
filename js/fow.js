@@ -168,6 +168,7 @@ any addEventListener polyfill
 					){ return; }
 					if( keyCode == 86 && isCtrl ){ /* разрешить вставку, но удалить все не цифры */
 						setTimeout(function(){
+							z.inp.value = i.inp.value.replace(/[^0-9\.]+/g,'');
 							console.info('Value - ',z.inp.value);
 						},16);
 						return;
