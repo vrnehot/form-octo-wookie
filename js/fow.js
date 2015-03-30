@@ -4,7 +4,7 @@
 	function ext(){
 		var i,j,arg = arguments;
 		for(i = 1; i < arg.length; i++){
-			for(var j in arg[i]).if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[1][j]; }
+			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[1][j]; }
 		}
 	}
 	function inp(){
