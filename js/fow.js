@@ -156,9 +156,9 @@ any addEventListener polyfill
 			, _events:function(){
 				console.info('add events');
 				var z = this;
-				z.inp.addEventListener('input',function(e){
-					console.info('inp event');
+				z.inp.addEventListener('keydown',function(e){
 					var keyCode = ('which' in e) ? e.which : e.keyCode;
+					console.info('inp event',keyCode);
 					if(
 						( ~[46, 8, 9, 27, 13, 110, 190].indexOf(keyCode) )
 						|| ( keyCode == 65 && isCtrl )
