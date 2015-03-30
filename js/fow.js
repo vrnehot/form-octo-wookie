@@ -5,7 +5,7 @@
 	function ext(){
 		var i,j,arg = arguments;
 		for(i = 1; i < arg.length; i++){
-			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[1][j]; }
+			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[i][j]; }
 		}
 	}
 	function inp(){
@@ -50,14 +50,14 @@
 				z.elem.appendChild(z.el_hint);
 			}
 			, _addMessage:function(){}
-			, _addInp:function(){/* сам инпут */}
+			, _addInp:function(){/* сам инпут */ throw('call virtual method _addInp'); }
 			, val:function(){
 				var z = this;
 				if(arguments.length){ return z._set.apply(this,arguments); }
 				return z._get();
 			}
-			, _get:function(){ /* возврат значения */ }
-			, _set:function(value){ /* установка значения */ }
+			, _get:function(){ /* возврат значения */ throw('call virtual method _addInp'); }
+			, _set:function(value){ /* установка значения */ throw('call virtual method _addInp'); }
 		}
 		, callbacks:{
 			$callbacks:true
