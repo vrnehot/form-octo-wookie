@@ -167,7 +167,10 @@ any addEventListener polyfill
 						|| ( keyCode > 34 && keyCode < 40 )
 					){ return; }
 					if( keyCode == 86 && isCtrl ){ /* разрешить вставку, но удалить все не цифры */
-						console.info(z.inp.value);
+						setTimeout(function(){
+							console.info('Value - ',z.inp.value);
+						},16);
+						return;
 					}
 					if((isShift || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105)){ e.preventDefault(); }
 				});
