@@ -10,11 +10,7 @@ any addEventListener polyfill
 	function ext(){
 		var i,j,arg = arguments;
 		for(i = 1; i < arg.length; i++){
-<<<<<<< HEAD
-			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[1][j]; }
-=======
 			for(var j in arg[i])if(arg[i].hasOwnProperty(j)){ arg[0][j] = arg[i][j]; }
->>>>>>> e25def808fb64b04615edc35659c5f48ad72df8e
 		}
 	}
 	var isCtrl = false, isShift = false;
