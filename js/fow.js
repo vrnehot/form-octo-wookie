@@ -47,6 +47,7 @@ any addEventListener polyfill
 			, _dom:function(){
 				var z = this;
 				z.elem = doc.createElement('label');
+				z.elem.className = fpref + 'element';
 				if(z.label){ z._addLabel(); }
 				if(z.hint){ z._addHint(); }
 				z._addInp();
@@ -147,6 +148,7 @@ any addEventListener polyfill
 				z.inp.type = 'text';
 				z.inp.name = z.name;
 				z.inpWrap = doc.createElement('div');
+				z.inpWrap.className = fpref + 'wrap';
 				z.inpWrap.appendChild(z.inp);
 				z.elem.appendChild(z.inpWrap);
 				// добавить свистелки и свистульки
