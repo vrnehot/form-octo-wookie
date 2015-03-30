@@ -8,11 +8,19 @@
 <body>
 	<h1>form-octo-wookie project site</h1>
 	<script>
-		var test = fow({
-			type:'text'
-			, label:'fow text test'
-		});
-		document.body.appendChild(test.elem);
+		(function(window){
+			var test,doc = window.document,body = doc.body;
+			test = fow({
+				type:'text'
+				, label:'fow text test'
+			});
+			body.appendChild(test.elem);
+			test = fow({
+				type:'number'
+				, label:'fow number test'
+			});
+			body.appendChild(test.elem);
+		})(window);
 	</script>
 </body>
 </html>
