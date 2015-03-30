@@ -1,6 +1,7 @@
 //FORM-OCTO-WOOKIE!!
 (function(window,und){
 	var doc = window.document;
+	var fpref = 'form-octo-wookie_';
 	function ext(){
 		var i,j,arg = arguments;
 		for(i = 1; i < arg.length; i++){
@@ -36,8 +37,16 @@
 			, _events:function(){/*events*/}
 			, _addLabel:function(){
 				z.el_label = doc.createElement('div');
+				z.el_label.className = fpref+'label';
+				z.el_label.innerHTML = z.label;
+				z.elem.appendChild(z.el_label);
 			}
-			, _addHint:function(){}
+			, _addHint:function(){
+				z.el_hint = doc.createElement('div');
+				z.el_hint.className = fpref+'hint';
+				z.el_hint.innerHTML = z.hint;
+				z.elem.appendChild(z.el_hint);
+			}
 			, _addMessage:function(){}
 			, _addInp:function(){/* сам инпут */}
 			, val:function(){
